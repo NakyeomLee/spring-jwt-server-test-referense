@@ -46,14 +46,15 @@ public class JwtAuthorizationFilter implements Filter {
 
             HttpSession session = request.getSession();
             session.setAttribute("sessionUser", loginUser);
-        }catch (JWTDecodeException jwtDecodeException){
+
+        } catch (JWTDecodeException jwtDecodeException){
             onError(response, "토큰 무결성 오류");
             return;
-        }catch (SignatureVerificationException se){
+
+        } catch (SignatureVerificationException se){
             onError(response, "토큰 검증 실패");
             return;
         }
-
 
         chain.doFilter(request, response);
     }
@@ -66,6 +67,7 @@ public class JwtAuthorizationFilter implements Filter {
             response.setContentType("application/json; charset=utf-8");
             PrintWriter out = response.getWriter();
             out.println(responseBody);
+
         }catch (Exception e){
             e.printStackTrace();
         }
